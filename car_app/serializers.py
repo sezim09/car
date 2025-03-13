@@ -136,10 +136,19 @@ class CarDetailSerializers(serializers.ModelSerializer):
     category = CategorySerializers()
     seller = UserProfileSerializers()
     reviews = ReviewCarSerializers()
+    avg_rating = serializers.SerializerMethodField()
+    count_people = serializers.SerializerMethodField()
     class Meta:
         model = Car
         fields = ['id', 'car_name', 'car_image', 'brand', 'year', 'car_body',
-                  'category', 'price', 'fuel_type', 'description','seller', 'video', 'reviews',  'created_at']
+                  'category', 'price', 'fuel_type', 'description','seller', 'video', 'reviews',  'created_at'
+                  'avg_rating', 'count_people']
+
+        def get_avg_rating(self, obj):
+            return obj.get_avg_rating()
+
+        def get_count_people(self, obj):
+            return obj.get_count_people()
 
 class OrderListSerializers(serializers.ModelSerializer):
     car = CarListSerializers()
